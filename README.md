@@ -84,3 +84,12 @@ MIT — see [LICENSE](LICENSE).
 ---
 
 Built by **ZeroPulse**.
+
+## Contributing
+
+Issues and PRs are welcome. If you find a bug or want a feature,
+open an issue with as much detail as you can — a screenshot helps.
+
+## Support
+
+If DevOS saves you time, star the repo — that's the only ask.
