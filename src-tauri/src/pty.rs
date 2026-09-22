@@ -37,10 +37,14 @@ pub fn open(
     cwd: Option<String>,
     shell: Option<String>,
 ) -> Result<()> {
+    // Close any existing session with this id first. Re-mounts, StrictMode
+    // double-invocation, and rapid project switches all race against the
+    // async pty_close from the previous effect. Killing the old session
+    // here makes pty_open idempotent — no more "already exists" errors.
     {
-        let sessions = state.0.lock().unwrap();
-        if sessions.contains_key(&id) {
-            return Err(anyhow!("pty session {id} already exists"));
+        let mut sessions = state.0.lock().unwrap();
+        if let Some(mut old) = sessions.remove(&id) {
+            let _ = old.child.kill();
         }
     }
 
