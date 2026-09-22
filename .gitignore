@@ -18,3 +18,26 @@ app-icon.png
 .idea
 .vscode/*
 !.vscode/extensions.json
+
+# Never commit personal seed scripts
+scripts/seed-projects.sh
+scripts/*-local.sh
+
+# Generated SQLite artifacts
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Build artifacts
+*.tgz
+coverage/
+.nyc_output/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS noise
+Thumbs.db
+*.swp
