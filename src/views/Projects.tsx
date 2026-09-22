@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FolderGit2, Pencil, Plus, Star, Trash2 } from 'lucide-react'
 import { Badge, Button, IconButton, Panel, Skeleton } from '@/components/ui'
 import { ProjectDialog } from '@/components/ProjectDialog'
@@ -13,6 +14,7 @@ export default function Projects() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editing, setEditing] = useState<Project | null>(null)
   const toast = useApp((s) => s.toast)
+  const nav = useNavigate()
 
   const load = () => ipc.listProjects().then(setItems)
   useEffect(() => { load() }, [])
@@ -160,7 +162,15 @@ export default function Projects() {
 
               <div className="mt-auto flex items-center justify-between border-t border-white/[0.05] pt-3 text-2xs text-ink-500">
                 <span>opened {relativeTime(p.lastOpenedAt)}</span>
-                <Button size="sm" variant="ghost">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() =>
+                    nav(
+                      `/terminal?cwd=${encodeURIComponent(p.path)}&name=${encodeURIComponent(p.name)}`,
+                    )
+                  }
+                >
                   Open →
                 </Button>
               </div>

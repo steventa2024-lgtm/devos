@@ -15,12 +15,12 @@ databases, environment secrets, logs, HTTP requests, and processes.
 
 ### Requirements
 - Node 20+ and pnpm 9+
-- Rust 1.77+ (`rustup` recommended)
-- Linux only: `libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev libsoup-3.0-dev`
+- Rust 1.77+ (rustup recommended)
+- Linux only: libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev libsoup-3.0-dev
 
 ### From source
 
-```
+```bash
 git clone https://github.com/steventa2024-lgtm/devos.git
 cd devos
 pnpm install
@@ -32,7 +32,7 @@ seeds a sample plugin, and starts.
 
 ### Build a release binary
 
-```
+```bash
 pnpm tauri build
 ```
 
@@ -72,7 +72,7 @@ See the sample plugin that ships with DevOS for the exact shape.
 |---|---|
 | Linux | `~/.local/share/dev.devos.app/` |
 | macOS | `~/Library/Application Support/dev.devos.app/` |
-| Windows | `%APPDATA%\dev.devos.app\` |
+| Windows | `%APPDATA%/dev.devos.app/` |
 
 Contents: `devos.db` (SQLite), `vault.key` (encryption key, mode 0600).
 Both stay on your machine. Never committed, never synced.

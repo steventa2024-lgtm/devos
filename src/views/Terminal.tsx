@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Terminal as XTerm } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
 import { WebLinksAddon } from '@xterm/addon-web-links'
@@ -11,6 +12,10 @@ import { listen } from '@tauri-apps/api/event'
 const SESSION_ID = 'main'
 
 export default function TerminalView() {
+  const [searchParams] = useSearchParams()
+  const cwdParam = searchParams.get('cwd') ?? undefined
+  const nameParam = searchParams.get('name')
+
   const hostRef = useRef<HTMLDivElement>(null)
   const termRef = useRef<XTerm | null>(null)
   const fitRef = useRef<FitAddon | null>(null)
@@ -51,7 +56,7 @@ export default function TerminalView() {
     requestAnimationFrame(() => {
       try { fit.fit() } catch { /* noop */ }
       ipc
-        .ptyOpen(SESSION_ID, term.cols, term.rows)
+        .ptyOpen(SESSION_ID, term.cols, term.rows, cwdParam)
         .catch((e) => term.writeln(`\x1b[31mFailed to open shell: ${e}\x1b[0m`))
     })
 
@@ -103,15 +108,21 @@ export default function TerminalView() {
       termRef.current = null
       fitRef.current = null
     }
-  }, [])
+  }, [cwdParam])
 
   return (
     <div className="flex h-[calc(100vh-120px)] flex-col gap-5">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight text-ink-100">Terminal</h1>
-          <p className="mt-1 text-sm text-ink-400">
+          <p className="mt-1 flex items-center gap-2 text-sm text-ink-400">
             {isDesktop ? 'Native shell · full PTY access' : 'Browser preview'}
+            {nameParam && (
+              <>
+                <span className="text-ink-600">·</span>
+                <span className="font-mono text-ink-300">{nameParam}</span>
+              </>
+            )}
           </p>
         </div>
       </div>

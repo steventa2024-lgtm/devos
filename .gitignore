@@ -41,3 +41,26 @@ coverage/
 # OS noise
 Thumbs.db
 *.swp
+
+# Personal seed scripts
+scripts/seed-projects.sh
+scripts/*-local.sh
+
+# SQLite artifacts
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Build artifacts
+*.tgz
+coverage/
+.nyc_output/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS noise
+Thumbs.db
+*.swp
